@@ -1,0 +1,113 @@
+DROP TABLE IF EXISTS SegmentTempMaxMonth;
+
+CREATE TEMPORARY TABLE SegmentTempMaxMonth (SegmentID INT, Theme STRING, MaxRating FLOAT);
+
+INSERT OVERWRITE TABLE SegmentTempMaxMonth 
+   SELECT SegmentID, Theme, Max(rating) AS MaxRating
+   FROM SegmentFlowAnalysisMonth 
+   WHERE Theme != 'Ignore'
+   GROUP BY Segmentid, theme
+   ORDER BY MaxRating DESC;
+
+DROP TABLE IF EXISTS SegmentMonthThemes;
+
+CREATE TEMPORARY TABLE SegmentMonthThemes (SegmentID INT, SegSep STRING, Theme STRING, ThemeCount INT, Rating INT);
+
+INSERT OVERWRITE TABLE SegmentMonthThemes 
+   SELECT RFA.*
+   FROM SegmentFlowAnalysisMonth RFA
+   INNER JOIN
+      (SELECT RF.SegmentID, MAX(RF.ThemeCount) AS MTC, MAX(RF.RATING) AS MR
+      FROM SegmentFlowAnalysisMonth RF
+      INNER JOIN
+         (SELECT MI.SegmentID, max(MI.ThemeCount) AS MaxThemeCount
+         FROM
+            (SELECT RFAM.SegmentID, RFAM.Theme, RFAM.ThemeCount, RFAM.Rating
+            FROM SegmentFlowAnalysisMonth RFAM
+            INNER JOIN SegmentTempMaxMonth TM
+            ON TM.SegmentID = RFAM.SegmentID
+            AND TM.MaxRating = RFAM.Rating
+            AND TM.Theme = RFAM.Theme) MI
+         GROUP BY MI.SegmentID) FQ
+      ON FQ.SegmentID = RF.SegmentID 
+      AND FQ.MaxThemeCount = RF.ThemeCount
+      GROUP BY RF.SegmentID) LJ
+   ON LJ.SegmentID = RFA.SegmentID 
+   AND LJ.MTC = RFA.ThemeCount 
+   AND LJ.MR = RFA.RATING;
+
+DROP TABLE IF EXISTS SegmentTempMaxYear;
+
+CREATE TEMPORARY TABLE SegmentTempMaxYear (SegmentID INT, Theme STRING, MaxRating FLOAT);
+
+INSERT OVERWRITE TABLE SegmentTempMaxYear
+   SELECT SegmentID, Theme, Max(rating) AS MaxRating
+   FROM SegmentFlowAnalysisYear
+   WHERE Theme != 'Ignore'
+   GROUP BY Segmentid, theme
+   ORDER BY MaxRating DESC;
+
+DROP TABLE IF EXISTS SegmentYearThemes;
+
+CREATE TEMPORARY TABLE SegmentYearThemes (SegmentID INT, SegSep STRING, Theme STRING, ThemeCount INT, Rating INT);
+
+INSERT OVERWRITE TABLE SegmentYearThemes 
+   SELECT RFA.*
+   FROM SegmentFlowAnalysisYear RFA
+   INNER JOIN
+      (SELECT RF.SegmentID, MAX(RF.ThemeCount) AS MTC, MAX(RF.RATING) AS MR
+      FROM SegmentFlowAnalysisYear RF
+      INNER JOIN
+         (SELECT MI.SegmentID, max(MI.ThemeCount) AS MaxThemeCount
+         FROM
+            (SELECT RFAM.SegmentID, RFAM.Theme, RFAM.ThemeCount, RFAM.Rating
+            FROM SegmentFlowAnalysisYear RFAM
+            INNER JOIN SegmentTempMaxYear TM
+            ON TM.SegmentID = RFAM.SegmentID
+            AND TM.MaxRating = RFAM.Rating
+            AND TM.Theme = RFAM.Theme) MI
+         GROUP BY MI.SegmentID) FQ
+      ON FQ.SegmentID = RF.SegmentID 
+      AND FQ.MaxThemeCount = RF.ThemeCount
+      GROUP BY RF.SegmentID) LJ
+   ON LJ.SegmentID = RFA.SegmentID 
+   AND LJ.MTC = RFA.ThemeCount 
+   AND LJ.MR = RFA.RATING;
+
+DROP TABLE IF EXISTS SegmentTempMaxWeek;
+
+CREATE TEMPORARY TABLE SegmentTempMaxWeek (SegmentID INT, Theme STRING, MaxRating FLOAT);
+
+INSERT OVERWRITE TABLE SegmentTempMaxWeek
+   SELECT SegmentID, Theme, Max(rating) AS MaxRating
+   FROM SegmentFlowAnalysisWeek
+   WHERE Theme != 'Ignore'
+   GROUP BY Segmentid, theme
+   ORDER BY MaxRating DESC;
+
+DROP TABLE IF EXISTS SegmentWeekThemes;
+
+CREATE TEMPORARY TABLE SegmentWeekThemes (SegmentID INT, Theme STRING, ThemeCount INT, Rating INT);
+
+INSERT OVERWRITE TABLE SegmentWeekThemes 
+   SELECT DISTINCT RFA.SegmentID, RFA.Theme, RFA.ThemeCount, RFA.Rating
+   FROM SegmentFlowAnalysisWeek RFA
+   INNER JOIN
+      (SELECT RF.SegmentID, MAX(RF.ThemeCount) AS MTC, MAX(RF.RATING) AS MR
+      FROM SegmentFlowAnalysisWeek RF
+      INNER JOIN
+         (SELECT MI.SegmentID, max(MI.ThemeCount) AS MaxThemeCount
+         FROM
+            (SELECT RFAM.SegmentID, RFAM.Theme, RFAM.ThemeCount, RFAM.Rating
+            FROM SegmentFlowAnalysisWeek RFAM
+            INNER JOIN SegmentTempMaxWeek TM
+            ON TM.SegmentID = RFAM.SegmentID
+            AND TM.MaxRating = RFAM.Rating
+            AND TM.Theme = RFAM.Theme) MI
+         GROUP BY MI.SegmentID) FQ
+      ON FQ.SegmentID = RF.SegmentID 
+      AND FQ.MaxThemeCount = RF.ThemeCount
+      GROUP BY RF.SegmentID) LJ
+   ON LJ.SegmentID = RFA.SegmentID 
+   AND LJ.MTC = RFA.ThemeCount 
+   AND LJ.MR = RFA.RATING;

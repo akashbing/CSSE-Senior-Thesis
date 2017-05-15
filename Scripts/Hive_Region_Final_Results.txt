@@ -1,0 +1,16 @@
+set hive.cli.print.header=true;
+INSERT OVERWRITE LOCAL DIRECTORY '/tmp/regionFinalResult.csv' 
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',' 
+SELECT 
+   RegAll.RegionID AS RegionID, RegAll.Theme AS RegAllTheme, RegAll.ThemeCount AS RegAllThemeCount, RegAll.Rating AS RegAllRating, 
+   RegYear.Theme AS RegYearTheme, RegYear.ThemeCount AS RegYearThemeCount, RegYear.Rating AS RegYearRating, 
+   RegMonth.Theme AS RegMonthTheme, RegMonth.ThemeCount AS RegMonthThemeCount, RegMonth.Rating AS RegMonthRating, 
+   RegWeek.Theme AS RegWeekTheme, RegWeek.ThemeCount AS RegWeekThemeCount, RegWeek.Rating AS RegWeekRating
+FROM RegionFlowAnalysisAll RegAll
+LEFT OUTER JOIN RegionYearThemes RegYear
+ON RegYear.RegionID = RegAll.RegionID 
+LEFT OUTER JOIN RegionMonthThemes RegMonth 
+ON RegMonth.RegionID = RegAll.RegionID 
+LEFT OUTER JOIN RegionWeekThemes RegWeek
+ON RegWeek.RegionID = RegAll.RegionID;

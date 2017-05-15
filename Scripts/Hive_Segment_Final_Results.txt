@@ -1,0 +1,17 @@
+set hive.cli.print.header=true;
+
+INSERT OVERWRITE LOCAL DIRECTORY '/tmp/segmentFinalResult.csv' 
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',' 
+SELECT 
+   SegAll.SegmentID AS SegmentID, SegAll.Theme AS SegAllTheme, SegAll.ThemeCount AS SegAllThemeCount, SegAll.Rating AS SegAllRating, 
+   SegYear.Theme AS SegYearTheme, SegYear.ThemeCount AS SegYearThemeCount, SegYear.Rating AS SegYearRating, 
+   SegMonth.Theme AS SegMonthTheme, SegMonth.ThemeCount AS SegMonthThemeCount, SegMonth.Rating AS SegMonthRating, 
+   SegWeek.Theme AS SegWeekTheme, SegWeek.ThemeCount AS SegWeekThemeCount, SegWeek.Rating AS SegWeekRating
+FROM SegmentFlowAnalysisAll SegAll
+LEFT OUTER JOIN SegmentYearThemes SegYear
+ON SegYear.SegmentID = SegAll.SegmentID 
+LEFT OUTER JOIN SegmentMonthThemes SegMonth 
+ON SegMonth.SegmentID = SegAll.SegmentID 
+LEFT OUTER JOIN SegmentWeekThemes SegWeek
+ON SegWeek.SegmentID = SegAll.SegmentID;

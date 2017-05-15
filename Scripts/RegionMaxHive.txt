@@ -1,0 +1,114 @@
+DROP TABLE IF EXISTS RegionTempMaxMonth;
+
+CREATE TEMPORARY TABLE RegionTempMaxMonth (RegionID STRING, Theme STRING, MaxRating FLOAT);
+
+INSERT OVERWRITE TABLE RegionTempMaxMonth 
+   SELECT RegionID, Theme, Max(rating) AS MaxRating
+   FROM regionFlowAnalysisMonth 
+   WHERE Theme != 'Ignore'
+   GROUP BY regionid, theme
+   ORDER BY MaxRating DESC;
+
+DROP TABLE IF EXISTS RegionMonthThemes;
+
+CREATE TEMPORARY TABLE RegionMonthThemes (RegionID STRING, RegSep STRING, Theme STRING, ThemeCount INT, Rating INT);
+
+INSERT OVERWRITE TABLE RegionMonthThemes 
+   SELECT RFA.*
+   FROM RegionFlowAnalysisMonth RFA
+   INNER JOIN
+   (SELECT RF.RegionID, MAX(RF.ThemeCount) AS MTC, MAX(RF.RATING) AS MR
+      FROM RegionFlowAnalysisMonth RF
+      INNER JOIN
+         (SELECT MI.RegionID, max(MI.ThemeCount) AS MaxThemeCount
+         FROM
+            (SELECT RFAM.RegionID, RFAM.Theme, RFAM.ThemeCount, RFAM.Rating
+            FROM RegionFlowAnalysisMonth RFAM
+            INNER JOIN RegionTempMaxMonth TM
+            ON TM.RegionID = RFAM.RegionID
+            AND TM.MaxRating = RFAM.Rating
+            AND TM.Theme = RFAM.Theme) MI
+         GROUP BY MI.RegionID) FQ
+      ON FQ.RegionID = RF.RegionID 
+      AND FQ.MaxThemeCount = RF.ThemeCount
+      GROUP BY RF.RegionID) LJ
+   ON LJ.RegionID = RFA.RegionID 
+   AND LJ.MTC = RFA.ThemeCount 
+   AND LJ.MR = RFA.RATING;
+
+DROP TABLE IF EXISTS RegionTempMaxYear;
+
+CREATE TEMPORARY TABLE RegionTempMaxYear (RegionID STRING, Theme STRING, MaxRating FLOAT);
+
+INSERT OVERWRITE TABLE RegionTempMaxYear
+   SELECT RegionID, Theme, Max(rating) AS MaxRating
+   FROM regionFlowAnalysisYear
+   WHERE Theme != 'Ignore'
+   GROUP BY regionid, theme
+   ORDER BY MaxRating DESC;
+
+DROP TABLE IF EXISTS RegionYearThemes;
+
+CREATE TEMPORARY TABLE RegionYearThemes (RegionID STRING, RegSep STRING, Theme STRING, ThemeCount INT, Rating INT);
+
+INSERT OVERWRITE TABLE RegionYearThemes 
+   SELECT RFA.*
+   FROM RegionFlowAnalysisYear RFA
+   INNER JOIN
+      (SELECT RF.RegionID, MAX(RF.ThemeCount) AS MTC, MAX(RF.RATING) AS MR
+      FROM RegionFlowAnalysisYear RF
+      INNER JOIN
+         (SELECT MI.RegionID, max(MI.ThemeCount) AS MaxThemeCount
+         FROM
+            (SELECT RFAM.RegionID, RFAM.Theme, RFAM.ThemeCount, RFAM.Rating
+            FROM RegionFlowAnalysisYear RFAM
+            INNER JOIN RegionTempMaxYear TM
+            ON TM.RegionID = RFAM.RegionID
+            AND TM.MaxRating = RFAM.Rating
+            AND TM.Theme = RFAM.Theme) MI
+         GROUP BY MI.RegionID) FQ
+      ON FQ.RegionID = RF.RegionID 
+      AND FQ.MaxThemeCount = RF.ThemeCount
+      GROUP BY RF.RegionID) LJ
+   ON LJ.RegionID = RFA.RegionID 
+   AND LJ.MTC = RFA.ThemeCount 
+   AND LJ.MR = RFA.RATING;
+
+DROP TABLE IF EXISTS RegionTempMaxWeek;
+
+CREATE TEMPORARY TABLE RegionTempMaxWeek (RegionID STRING, Theme STRING, MaxRating FLOAT);
+
+INSERT OVERWRITE TABLE RegionTempMaxWeek
+   SELECT RegionID, Theme, Max(rating) AS MaxRating
+   FROM regionFlowAnalysisWeek
+   WHERE Theme != 'Ignore'
+   GROUP BY regionid, theme
+   ORDER BY MaxRating DESC;
+
+DROP TABLE IF EXISTS RegionWeekThemes;
+
+CREATE TEMPORARY TABLE RegionWeekThemes (RegionID STRING, Theme STRING, ThemeCount INT, Rating INT);
+
+INSERT OVERWRITE TABLE RegionWeekThemes 
+   SELECT DISTINCT RFA.RegionID, RFA.Theme, RFA.ThemeCount, RFA.Rating
+   FROM RegionFlowAnalysisWeek RFA
+   INNER JOIN
+      (SELECT RF.RegionID, MAX(RF.ThemeCount) AS MTC, MAX(RF.RATING) AS MR
+      FROM RegionFlowAnalysisWeek RF
+      INNER JOIN
+         (SELECT MI.RegionID, max(MI.ThemeCount) AS MaxThemeCount
+         FROM
+            (SELECT RFAM.RegionID, RFAM.Theme, RFAM.ThemeCount, RFAM.Rating
+            FROM RegionFlowAnalysisWeek RFAM
+            INNER JOIN RegionTempMaxWeek TM
+            ON TM.RegionID = RFAM.RegionID
+            AND TM.MaxRating = RFAM.Rating
+            AND TM.Theme = RFAM.Theme) MI
+         GROUP BY MI.RegionID) FQ
+      ON FQ.RegionID = RF.RegionID 
+      AND FQ.MaxThemeCount = RF.ThemeCount
+      GROUP BY RF.RegionID)  LJ
+   ON LJ.RegionID = RFA.RegionID 
+   AND LJ.MTC = RFA.ThemeCount 
+   AND LJ.MR = RFA.RATING;
+

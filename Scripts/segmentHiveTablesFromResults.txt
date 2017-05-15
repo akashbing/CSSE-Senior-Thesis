@@ -1,0 +1,163 @@
+DROP TABLE IF EXISTS SegmentAd;
+
+DROP TABLE IF EXISTS SegmentFlowAnalysis;
+
+DROP TABLE IF EXISTS SegmentFlowAnalysisAll;
+
+DROP TABLE IF EXISTS SegmentFlowAnalysisWeek;
+
+DROP TABLE IF EXISTS SegmentFlowAnalysisMonth;
+
+DROP TABLE IF EXISTS SegmentFlowAnalysisYear;
+
+CREATE EXTERNAL TABLE IF NOT EXISTS SegmentAd(
+   SegmentID INT, 
+   AdDate STRING, 
+   Theme STRING, 
+   Rating INT)
+COMMENT 'Data about segment advertisement'
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+location '/tmp/BillBoardByDay_Segment/';
+
+CREATE EXTERNAL TABLE IF NOT EXISTS SegmentFlowAnalysis(
+   SegmentID INT,
+   Theme STRING, 
+   ThemeCount INT, 
+   Rating INT)
+COMMENT 'Data about segment flow analysis'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE
+location '/tmp/Segment_Flow_Analysis/Default';
+
+
+CREATE EXTERNAL TABLE IF NOT EXISTS SegmentFlowAnalysisAll(
+   SegmentID INT,
+   Theme STRING, 
+   ThemeCount INT, 
+   Rating INT)
+COMMENT 'Data about segment flow analysis for all collected data'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE
+location '/tmp/Segment_Flow_Analysis/All/';
+
+CREATE EXTERNAL TABLE IF NOT EXISTS SegmentFlowAnalysisMonth(
+   SegmentID INT,
+   SegSep STRING,
+   Theme STRING, 
+   ThemeCount INT, 
+   Rating INT)
+COMMENT 'Data about segment flow analysis by month'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE
+location '/tmp/Segment_Flow_Analysis/Month/';
+
+CREATE EXTERNAL TABLE IF NOT EXISTS SegmentFlowAnalysisWeek(
+   SegmentID INT,
+   SegSep STRING,
+   Theme STRING, 
+   ThemeCount INT, 
+   Rating INT)
+COMMENT 'Data about flow analysis by week'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE
+location '/tmp/Segment_Flow_Analysis/Week/';
+
+CREATE EXTERNAL TABLE IF NOT EXISTS SegmentFlowAnalysisYear(
+   SegmentID INT,
+   SegSep STRING,
+   Theme STRING, 
+   ThemeCount INT, 
+   Rating INT)
+COMMENT 'Data about segment flow analysis by year'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE
+location '/tmp/Segment_Flow_Analysis/Year/';
+
+DROP TABLE IF EXISTS RegionAd;
+
+DROP TABLE IF EXISTS RegionFlowAnalysis;
+
+DROP TABLE IF EXISTS RegionFlowAnalysisAll;
+
+DROP TABLE IF EXISTS RegionFlowAnalysisWeek;
+
+DROP TABLE IF EXISTS RegionFlowAnalysisMonth;
+
+DROP TABLE IF EXISTS RegionFlowAnalysisYear;
+
+CREATE EXTERNAL TABLE IF NOT EXISTS RegionAd(
+   RegionID INT, 
+   AdDate STRING, 
+   Theme STRING, 
+   Rating INT)
+COMMENT 'Data about region advertisement'
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+location '/tmp/BillBoardByDay_Region/';
+
+CREATE EXTERNAL TABLE IF NOT EXISTS RegionFlowAnalysis(
+   RegionID INT,
+   Theme STRING, 
+   ThemeCount INT, 
+   Rating INT)
+COMMENT 'Data about region flow analysis'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE
+location '/tmp/Region_Flow_Analysis/Default';
+
+
+CREATE EXTERNAL TABLE IF NOT EXISTS RegionFlowAnalysisAll(
+   RegionID STRING, 
+   Theme STRING, 
+   ThemeCount INT, 
+   Rating INT)
+COMMENT 'Data about region flow analysis for all collected data'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE
+location '/tmp/Region_Flow_Analysis/All/';
+
+CREATE EXTERNAL TABLE IF NOT EXISTS RegionFlowAnalysisMonth(
+   RegionID STRING,
+   RegSep STRING, 
+   Theme STRING, 
+   ThemeCount INT, 
+   Rating INT)
+COMMENT 'Data about region flow analysis by month'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE
+location '/tmp/Region_Flow_Analysis/Month/';
+
+CREATE EXTERNAL TABLE IF NOT EXISTS RegionFlowAnalysisWeek(
+   RegionID STRING,
+   RegSep STRING, 
+   Theme STRING, 
+   ThemeCount INT, 
+   Rating INT)
+COMMENT 'Data about region flow analysis by week'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE
+location '/tmp/Region_Flow_Analysis/Week/';
+
+CREATE EXTERNAL TABLE IF NOT EXISTS RegionFlowAnalysisYear(
+   RegionID STRING,
+   RegSep STRING, 
+   Theme STRING, 
+   ThemeCount INT, 
+   Rating INT)
+COMMENT 'Data about region flow analysis by year'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+STORED AS TEXTFILE
+location '/tmp/Region_Flow_Analysis/Year/';
