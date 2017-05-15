@@ -1,6 +1,8 @@
 # CSSE-Senior-Thesis
 Senior thesis project done for 2016-2017. Utilizes Hadoop Ecosystem, Java MapReduce, Apache Pig, Apache Hive. 
 
+![Hadoop Image](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Hadoop_logo.svg/664px-Hadoop_logo.svg.png)
+
 This project was completed during the academic year at Rose-Hulman Institute of Technology for the Computer Science and Software Engineering Departmant, under the adivisement of Dr. Sriram Mohan. 
 
 ## Folder Layout
@@ -19,13 +21,14 @@ In the following setup, each of the folders have the following:
 - **Paper**: Document to create final thesis paper for the class.
 - **Presentations**: Various files used for a poster presentation and for quarterly updates
 - **Projects**: Projects used for the project (*Eclipse Projects*)
-  - **DataCollection**:
-  - **GenerateThoroughBillboardData**:
-  - **SegmentsInRegions**:
+  - **DataCollection**:Using [jsoup](https://jsoup.org/) to download Census data per zip code.
+  - **GenerateThoroughBillboardData**:Generates the advertisement data for segment and region. Every row would be the segment or region identifier, with an advertisement, rating, and length of time for the advertisement. The data is available in the **Example_Data/AdvertisementData**
+  - **SegmentsInRegions**:Quick program to determine which segments fell in a region. Was an idea to determine how much segments factor into a  region.
   - **Traffic Analysis**: Main aggregation of data. Contains 4 seperate projects with in the project itself.
-    - **CongestionFinder**:
-    - **DayAnalysis**:
-    - **FlowAnalysis**:
-    - **FlowAnalysisGrouping**:
-- **Results**:
+    - **CongestionFinder**:Original prototype for day analysis. Attributes from this project is used in the **DayAnalysis** project, which is described below
+    - **DayAnalysis**:Took all the data for a region and segment on a given day and found the statistics of congestion and found the longest period of congestion.
+    - **FlowAnalysis**:Original prototype for flow analysis. The code was reused in the project **FlowAnalysisGrouping** but with added features.
+    - **FlowAnalysisGrouping**:Takes in advertisement data joined with DayAnalysis output data and determines is a given area gets an advertisement and what the best advertisement would be for the region and segment. Additional to this, the determining of advertisement placement also took into account of the length of time the congestion calculations took place. Time split ups are *week of year*, *month of year*, *year*, and *all time* (Same as **FlowAnalysis**)
+- **Results**:Final results after running all the commands found in the [trafficAnalysisCommands.txt](https://github.com/gateslm/CSSE-Senior-Thesis/blob/master/trafficAnalysisCommands.txt).
 - **Scripts**:
+
