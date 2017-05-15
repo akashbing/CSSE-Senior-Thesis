@@ -5,6 +5,8 @@ Senior thesis project done for 2016-2017. Utilizes Hadoop Ecosystem, Java MapRed
 
 This project was completed during the academic year at Rose-Hulman Institute of Technology for the Computer Science and Software Engineering Departmant, under the adivisement of Dr. Sriram Mohan. 
 
+------------------------------------------------------------
+
 ## Folder Layout
 
 In the following setup, each of the folders have the following:
@@ -30,5 +32,14 @@ In the following setup, each of the folders have the following:
     - **FlowAnalysis**:Original prototype for flow analysis. The code was reused in the project **FlowAnalysisGrouping** but with added features.
     - **FlowAnalysisGrouping**:Takes in advertisement data joined with DayAnalysis output data and determines is a given area gets an advertisement and what the best advertisement would be for the region and segment. Additional to this, the determining of advertisement placement also took into account of the length of time the congestion calculations took place. Time split ups are *week of year*, *month of year*, *year*, and *all time* (Same as **FlowAnalysis**)
 - **Results**:Final results after running all the commands found in the [trafficAnalysisCommands.txt](https://github.com/gateslm/CSSE-Senior-Thesis/blob/master/trafficAnalysisCommands.txt).
-- **Scripts**:
+- **Scripts**: Contains all the scripts for *Pig*, *Hive*, and *Bash* to either clean and parse the data, store into an SQL format, or download the data. The order to run the commands is found in the [trafficAnalysisCommands.txt](https://github.com/gateslm/CSSE-Senior-Thesis/blob/master/trafficAnalysisCommands.txt).
 
+------------------------------------------------------------
+
+**trafficAnalysisCommands.txt**:
+
+Contains the order and all the commands to run the project and produce results similar to mine, unless the advertisement data is randomly generated. 
+
+------------------------------------------------------------
+
+Please feel free to contact me for more information through GitHub. 
