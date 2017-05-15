@@ -37,7 +37,7 @@
 
 \begin{abstract}
 	%\todo %{Find something to put here}
-	The amount of data collected daily is rising. Various themes of data are collected for various reasons, such as temperature data, agricultural statistics, sales numbers, traffic data, and advertisement data. Using datasets, such as billboard advertisement data and congestion traffic, I have been able to effectively find areas of congestion for a given region or segment along with the best advertisement for the given region or segment. The \HadoopEcosystem\ environment was used in combination with the tools Apache Pig and Apache Hive. The traffic data was aggregated to find the statistics for a given region and segment on a given day. The randomly generated advertisement data was joined with each region and segment for a given day. For each of the days, a common time frame of overlap was found and was used to help determine if any congestion occurred in a given region and segment. To show the effectiveness of the algorithm, different time frames were used to show the impact of a certain advertisement in a given region and segment. 
+	The amount of data collected daily is rising. Various themes of data, such as temperature data, agricultural statistics, sales numbers, traffic data, and advertisement data are typically gathered. Using datasets, such as billboard advertisement data and congestion traffic, I have been able to effectively find areas of congestion for a given region or segment along with the best advertisement for the given region or segment. The \HadoopEcosystem\ was used in combination with the tools Apache Pig and Apache Hive. The traffic data was aggregated to find the statistics for a given region and segment on a given day. The randomly generated advertisement data was joined with each region and segment for a given day. For each of the days, a common time frame of overlap was found and was used to help determine if any congestion occurred in a given region and segment. To show the effectiveness of the algorithm, different time frames were used to show the impact of a certain advertisement in a given region and segment. 
 \end{abstract}
 
 \section{Motivation}
@@ -53,7 +53,7 @@ Since the collection and storage of data has become easier with wireless sensors
 
 \subsection{What is \BigData?}
 
-\par \BigData\ is the ``Information asset characterized by such a High Volume, Velocity, and Variety to require specific Technology and Analytical Methods for its transformation into Value" \cite{doi:10.1108/LR-06-2015-0061}. The idea of \BigData\ is not limited to large companies, for instance, retailers trying to understand consumers shopping patterns, but also scientists performing analysis on data collected from experiments in a more timely manner. Based on the tool and environment used to master \BigData\ for a project, setting up and deploying the tool is not a simple task. Getting results from \BigData\ environment has the process of \cite{BigDataAndItsTechnicalChallenges}: 
+\par \BigData\ is ``information asset characterized by such a High Volume, Velocity, and Variety to require specific Technology and Analytical Methods for its transformation into Value" \cite{doi:10.1108/LR-06-2015-0061}. The idea of \BigData\ is not limited to large companies, for instance, retailers trying to understand consumers shopping patterns, but also scientists performing analysis on data collected from experiments in a more timely manner. Based on the tool and environment used to master \BigData\ for a project, setting up and deploying the tool is not a simple task. Getting results from \BigData\ environment has the process of \cite{BigDataAndItsTechnicalChallenges}: 
 \begin{enumerate}
 	\item Acquisition
 	\item Information extraction and cleaning
@@ -62,7 +62,7 @@ Since the collection and storage of data has become easier with wireless sensors
 	\item Interpretation and deployment
 \end{enumerate}
 
-\par \BigData\ is not guaranteed to produce a result with any given dataset. Data is not guaranteed to produce a pattern. A success from \BigData\ can come from showing a pattern or trend within a given dataset or by finding a lack of trend in a large amount of data. By using a \BigData\ environment or tools, analysis of the data can produce a result based on what the user designs for the modeling and analysis stage as well as the interpretation and deployment stage, not just running the data through the tool itself. 
+\par \BigData\ is not guaranteed to produce a result with any given dataset. Data is not guaranteed to produce a pattern. A success from \BigData\ can come from showing a pattern or trend within a given dataset or by finding a lack of trend in a large amount of data. By using a \BigData\ environment or tools, analysis of the data can produce a result based on the user designs for the modeling and analysis stage as well as the interpretation and deployment stage, not just running the data through the tool itself. 
 
 
 \section{Literature Review}% \todo{ Be Assertive}}
@@ -80,14 +80,14 @@ To successfully complete the thesis, a vast amount of traffic data was needed an
 \subsection{Data}
 \label{sub:Data}
 
-\par The \textit{Chicago Data Portal} is the preferred mechanism to share all the data that is collected throughout The \CityChicago\ daily. The \textit{Chicago Data Portal} was established through the \href{https://www.cityofchicago.org/city/en/narr/foia/open_data_executiveorder.html}{Open Data Executive Order (No. 2012-2)} to add a level of transparency to the data being collected by Chicago officials. 
+\par The \textit{Chicago Data Portal} \cite{dataPortal} is the preferred mechanism to share all the data that is collected throughout The \CityChicago\ daily. The \textit{Chicago Data Portal} was established through the \href{https://www.cityofchicago.org/city/en/narr/foia/open_data_executiveorder.html}{Open Data Executive Order (No. 2012-2)} to add a level of transparency to the data being collected by Chicago officials. 
 
 \par The data that is essential for determining traffic flow within Chicago are the
 \href{https://data.cityofchicago.org/Transportation/Chicago-Traffic-Tracker-Congestion-Estimates-by-Se/n4j6-wkkf}{Chicago Traffic Tracker - Congestion Estimates by Segment} and the  \href{https://data.cityofchicago.org/Transportation/Chicago-Traffic-Tracker-Congestion-Estimates-by-Re/t2qc-9pjd}{Chicago Traffic Tracker - Congestion Estimates by Regions} datasets. Please refer to Appendix \ref{app:segmentCTT} and \ref{app:regionCTT} for information about the downloaded spreadsheets.
 
 \subsubsection{Chicago Traffic Tracker - Congestion Estimates by Segments}
 
-\par The segment estimations “contains the current estimated vehicle speed for about 1250 segments covering 200 miles of arterial roads” \cite{S1} in Chicago. The spreadsheet does not update every segment, which is due to an uploading problem on the data portal`s end. The segment estimations are roughly collected every 20 minutes by the Data Portal. The important information from each row in the dataset are:
+\par The segment estimations “contains the current estimated vehicle speed for about 1250 segments covering 200 miles of arterial roads” \cite{S1} in Chicago. The spreadsheet does not update every segment, which is due to an uploading problem on the data portal's end. The segment estimations are roughly collected every 20 minutes by the Data Portal. The important information from each row in the dataset are:
 \begin{enumerate}
 	\item Location of the traffic flow
 	\item Area of the traffic flow
@@ -139,7 +139,7 @@ To successfully complete the thesis, a vast amount of traffic data was needed an
 
 \subsubsection{Chicago Traffic Tracker - Congestion Estimates by Regions}
 
-\par The region estimations “contains the current estimated congestion for the 29 traffic regions” \cite{S3} in Chicago. The region spreadsheet stored on the \textit{Chicago Data Portal} has updated all 29 regions. The region estimations are to be collected every 10 minutes by the Data Portal. The important information from each row in the dataset are the boundary of a given region, speed of the traffic, and the time stamp the data was updated. Since the 29 regions each have a given number of segments, a given region will provide an overview of the average speed of all the segments. By having segments in each region, a pattern can be found about the given region. This can be used to find the best advertisement over the region, then finding a better fit of the advertisement in a smaller defined area, such as a segment. Refer to Appendix \ref{app:regionCTT} for information about the columns of the dataset. Data was collected between September 18th, 2016 to February 23rd, 2017. Details of the automatic download is demonstrated in Algorithm \ref{alg:1} and in the repository \ref{sub:github} under the \textit{Scripts/automatedRun.sh} file. The downloading of regions datasets operations happen with the downloading of the segment datasets.
+\par The region estimations “contains the current estimated congestion for the 29 traffic regions” \cite{S3} in Chicago. The region spreadsheet stored on the \textit{Chicago Data Portal} has updated all 29 regions. The region estimations are to be collected every 10 minutes by the Data Portal. The important information from each row in the dataset are the boundary of a given region, speed of the traffic, and the time stamp the data was updated. Since the 29 regions each have a given number of segments, a given region will provide an overview of the average speed of all the segments. By having segments in each region, a pattern can be found about the given region. This can be used to find the best advertisement over the region, then finding a better fit of the advertisement in a smaller defined area, such as a segment. Refer to Appendix \ref{app:regionCTT} for information about the columns of the dataset. Data was collected between September 18th, 2016 to February 23rd, 2017. Details of the automatic download is demonstrated in Algorithm \ref{alg:1} and in the repository \ref{sub:github} under the \textit{Scripts/automatedRun.sh} file. The datasets are downoaded along with the segment datasets.
 
 \subsection{Advertisement Data}
 \label{sub:adData}
@@ -237,7 +237,7 @@ MapReduce jobs are specifically designed for large dataset problems by splitting
 
 \subsection{The \HadoopEcosystem\ Tools}
 
-The \HadoopEcosystem\ has a library of predefined projects that can be incorporated into the ecosystem. These projects often provide a high level language to process data in a manner similar to native MapReduce operations but allowing a user to forgo the requirement of making such a MapReduce program. Tools can be language-neutral data serialization systems, storage format systems, extracting data from structured data stores, and MapReduce abstraction. All these available tools can be used along side a user-defined  MapReduce function.  
+The \HadoopEcosystem\ has a library of predefined projects that can be incorporated into the ecosystem. These projects often provide a high level language to process data in a manner similar to native MapReduce operations, but allowing a user to forgo the requirement of making such a MapReduce program. Tools can be language-neutral data serialization systems, storage format systems, extracting data from structured data stores, and MapReduce abstraction. All these available tools can be used along side a user-defined  MapReduce function.  
 
 \subsubsection{Apache Pig}
 
@@ -252,7 +252,7 @@ Apache Hive is a data warehouse framework that utilizes the way data is stored i
 \section{Architecture}
 
 
-\par Due to the large amount data stored within the dataset, an architecture flow was needed to do a complete analysis of the data and combined with advertisement data. The data flow of the cluster pulls in \textit{Congestion Estimates by Segment} and \textit{Congestion Estimates by Region} from the Chicago Data Portal. Three files are downloaded, as back-up copies in alternative forms, as visualized in Figure \ref{fig:DataDownload}. 
+\par Due to the large amount data stored within the dataset, an architecture flow was needed to do a complete analysis of the data and combined with advertisement data. The download data flow pulls in \textit{Congestion Estimates by Segment} and \textit{Congestion Estimates by Region} from the Chicago Data Portal. Three files are downloaded, as back-up copies in alternative forms, as visualized in Figure \ref{fig:DataDownload}. 
 
 \begin{figure}[h]
 	\centering
@@ -282,7 +282,7 @@ Apache Hive is a data warehouse framework that utilizes the way data is stored i
 \section{Algorithms}
 \label{sec:algorithms}
 
-\par Pig and Hive help aggregate the data, however a more unique user-defined function is needed at continue process. To handle the classification of congestion for each date time, the speed is collected and the data is aggregated to find the best advertisement for that region or segment.
+\par Pig and Hive help aggregate the data, however a more unique user-defined function is needed to continue processing. To handle the classification of congestion for each date time, the speed is collected and the data is aggregated to find the best advertisement for that region or segment.
 
 \subsection{Advertisement Storage}
 
@@ -317,7 +317,7 @@ Apache Hive is a data warehouse framework that utilizes the way data is stored i
 		\hline
 	\end{tabular}%
 	\label{tab:regionAdsTable}%
-	\caption{\small Subset of data from region advertisement data that was randomly generated by Algorithm \ref{alg:2}. The algorithm that controls the generation fo random advertisement data is shown in Section \ref{sub:adData}}
+	\caption{\small Subset of data from region advertisement data that was randomly generated by Algorithm \ref{alg:2}. The algorithm that controls the generation for random advertisement data is shown in Section \ref{sub:adData}}
 \end{figure}%
 
 
@@ -484,7 +484,7 @@ Apache Hive is a data warehouse framework that utilizes the way data is stored i
 
 \begin{algorithm}
 	\small
-	\caption{\small Reducer from the MapReduce of determining what is the best theme for a region and segment based on the time grouping. Different time groupings can be processed through this reducer. The difference between region and segment calculations are minute details in the code.}
+	\caption{\small Reducer from the MapReduce of determining the best theme for a region and segment based on the time grouping. Different time groupings can be processed through this reducer. The difference between region and segment calculations are minute details in the code.}
 	\label{alg:5}
 	\begin{algorithmic}[1]
 		\Procedure{reduce}{key, values}
@@ -526,12 +526,12 @@ Apache Hive is a data warehouse framework that utilizes the way data is stored i
 
 \par The traffic and advertisement sets for regions and segments are joined together then broken up by week, month, year, or all time to show the best advertisement for a given region or segment. Comparing the time break ups is not initially obvious, so the data needs to be aggregated to make comparisons easy between the different time periods. 
 
-\par The results need to be presented so that a region and segment for a week, month, year, or all time have a similar layout. Using The \HadoopEcosystem\ and Hive, the resulting data from Algorithm \ref{alg:5} can be queried and aggregated. All data produced by the algorihm Section \ref{sub:grpAnalysis} are imported into a table structure in Hive. For the time periods of week, month, and year, the maximum rating for the longest time period an advertisement is shown over all time period break ups, presented the result in the table as one entity for a given week, month, and year.
+\par The results need to be presented so that a region and segment for a week, month, year, or all time have a similar layout. Using The \HadoopEcosystem\ and Hive, the resulting data from Algorithm \ref{alg:5} can be queried and aggregated. All data produced by the algorihm Section \ref{sub:grpAnalysis} are imported into a table structure in Hive. For the time periods of week, month, and year, the maximum rating for the longest time period an advertisement is shown over all time period break ups.
 
 \subsection{Code Repository}
 \label{sub:github}
 
-\par The code can be found at the following GitHub repository: \href{https://github.com/gateslm/CSSE-Senior-Thesis}{gateslm/CSSE-Senior-Thesis}
+\par The code can be found at the following GitHub repository: \href{https://github.com/gateslm/CSSE-Senior-Thesis}{gateslm/CSSE-Senior-Thesis} \cite{github}
 
 \section{Results and Discussion}
 
@@ -539,21 +539,21 @@ Apache Hive is a data warehouse framework that utilizes the way data is stored i
 
 % \section{Discussion}
 
-\par The outcome of region and segment results is as expected, however the result needs to be treated with caution as advertisement data, as the accuracy is not useful given the data is randomly generated. The results for any given region and segment does show that it is obvious that a billboard in a certain area would be highly ineffective, due to traffic flow in the area. This shows as a proof of concept that advertisement and traffic data can be aggregated together to provide evidence of advertisement do depend on traffic flow. 
+\par The outcome of region and segment results is as expected, however the result needs to be treated with caution as advertisement data is randomly generated. The results for any given region and segment does show that it is obvious that a billboard in a certain area would be highly ineffective, due to traffic flow in the area. This shows as a proof of concept that advertisement and traffic data can be aggregated together to provide evidence of advertisement do depend on traffic flow. 
 
 \par Looking at how the data is grouped by week, month, year, or all together also shows the impact of a given length of an advertisement. Looking at the complete dataset, the algorithm found that some shorter time spans for a region and segment can be effective placements for billboards and the appropriate theme to use for that region/segment in a given time frame.  
 
 \subsection{Region Result and Discussion}
 
-\par The region results proved quite interesting. A large amount of advertisements and ratings stayed the same comparing between each time segments of month, year, and all time, but the week advertisement theme and rating would change. This can be associated with the algorithms found ties for advertisement lengths and ratings, and alphabetical order would be the determining factor for the resulting theme. 
+\par The region results proved quite interesting. A large amount of advertisements and ratings stayed the same across different time periods (month, year, all time), but the week advertisement theme and rating would change. This can be associated with the algorithms found ties for advertisement lengths and ratings, and alphabetical order would be the determining factor for the resulting theme. 
 
-\par Few regions had no themes and ratings that were all ignored for week, month, year, and all together. From the spreadsheet in the Appendix \ref{app:regionCTT}, a single row had month, year, and all together ignored. Had a week not be ignored does not seem out of place, since the length of congestion is long enough for a week, but not long enough to be congested for a large time period, month or year. A single week of the year could have had enough congestion to be considered for placing an advertisement. 
+\par Few regions had no themes and ratings that were all ``ignored" for week, month, year, and all together. From the spreadsheet in the Appendix \ref{app:regionCTT}, a single row had month, year, and all together ``ignored". A week with an ``ignored" value is not an anomaly, since the length of the congestion is long enough for a week, but not long enough to be a congestion period for a larger time period, such as month or year. A single week of the year has enough congestion to be considered for placing an advertisement. 
 
 \subsection{Segment Result and Discussion}
 
 \par The segment results had little variation. A large amount of advertisements and ratings stayed the same compared between each month, year, and all time, but the week advertisement theme and rating would change. This can be connected to the the fact that the algorithm would have ties of advertisement lengths and ratings, and alphabetical order would be the determining factor for the resulting theme. 
 
-\par Many segments had no themes and ratings that were all ignored for week, month, year, and all together. By reading the description column on The \CityChicago\ Data Portal, many segments were no longer being recorded and had been left in the data sets.  From the spreadsheet in Appendix \ref{app:segmentCTT}, a vast amount of rows had month, year, and all together ignored. Had a week not be ignored does not seem out of place, since the length of congestion is long enough for a week, but not long enough to be congested for a large time period, month or year. A single week of the year could have had enough congestion to be considered for placing an advertisement. 
+\par Many segments had no themes and ratings that were all ``ignored" for week, month, year, and all together. By reading the description column on The \CityChicago\ Data Portal, many segments were no longer being recorded and had been left in the data sets.  From the spreadsheet in Appendix \ref{app:segmentCTT}, a vast amount of rows had month, year, and all together ``ignored." A week with an ``ignored" value is not an anomaly, since the length of the congestion is long enough for a week, but not long enough to be a congestion period for a larger time period, such as month or year. A single week of the year has enough congestion to be considered for placing an advertisement. 
 
 \section{Future Work}
 \label{sec:futureWork}
@@ -636,7 +636,7 @@ An initial idea was to incorporate machine learning into the thesis  could not b
 \onecolumn
 \subsection{Region Analysis Data}
 \label{seg:regionAnalysisData}
-	\par Figure \ref{tab:subTableRegion} shows a subset of the data collected for regions. The subset of data is for doing the algorithms over all the data without separation such as by weeks, months, or years. To see the full set of data for regions, refer to \href{https://github.com/gateslm/CSSE-Senior-Thesis/blob/master/Results/finalResultRegion.xlsx}{Github repository with all the data} separated by running the algorithm over weeks, months, or years.
+	\par Figure \ref{tab:subTableRegion} shows a subset of the data collected for regions. The subset of data is for running the algorithms over all the data without separation such as by weeks, months, or years. To see the full set of data for regions, refer to \href{https://github.com/gateslm/CSSE-Senior-Thesis/blob/master/Results/finalResultRegion.xlsx}{Github repository with all the data} separated by running the algorithm over weeks, months, or years.
 
 \par NOTE: The values that have Ignore and negative numbers are place holders to denote where it was not relevant enough to place an advertisement. The different negative numbers are in place for debugging in case all output is a negative number for  a given region.
 
@@ -651,7 +651,7 @@ An initial idea was to incorporate machine learning into the thesis  could not b
 
 \subsection{Segment Analysis Data}
 \label{seg:segmentAnalysisData}
-\par Figure \ref{tab:tableSegmentSub} shows a subset of the data collected for segments. The subset of data is for doing the algorithms over all the data without separation such as by weeks, months, or years. To see the full set of data for segments, refer to \href{https://github.com/gateslm/CSSE-Senior-Thesis/blob/master/Results/finalResultSegment.xlsx}{Github with all the data} separated by running the algorithm over weeks, months, or years.
+\par Figure \ref{tab:tableSegmentSub} shows a subset of the data collected for segments. The subset of data is for running the algorithms over all the data without separation such as by weeks, months, or years. To see the full set of data for segments, refer to \href{https://github.com/gateslm/CSSE-Senior-Thesis/blob/master/Results/finalResultSegment.xlsx}{Github with all the data} separated by running the algorithm over weeks, months, or years.
 
 
 \par NOTE: The values that have Ignore and negative numbers are place holders to denote where it was not relevant enough to place an advertisement. The different negative numbers are in place for debugging in case all output is a negative number for  a given segment.
